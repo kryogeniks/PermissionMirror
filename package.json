@@ -1,0 +1,50 @@
+{
+    "name": "permissionmirror",
+    "displayName": "Permission Mirror",
+    "description": "Enforces directory group ownership and permissions on file save and creation.",
+    "version": "0.0.1",
+    "publisher": "kryogeniks",
+    "engines": {
+        "vscode": "^1.80.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "*"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "configuration": {
+            "properties": {
+                "permissionmirror.autoExecutableExtensions": {
+                    "type": "array",
+                    "default": [
+                        ".sh",
+                        ".py",
+                        ".pl",
+                        ".cgi"
+                    ],
+                    "description": "File extensions that should automatically be marked executable for group."
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile",
+        "test": "node ./out/test/runTest.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/kryogeniks/PermissionMirror.git"
+    },
+    "devDependencies": {
+        "@types/node": "^18.0.0",
+        "@types/vscode": "^1.80.0",
+        "typescript": "^5.0.0",
+        "vscode-test": "^2.0.0"
+    }
+}
