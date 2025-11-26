@@ -42,7 +42,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-    // --- Handle save operation with same mirroring ---
+    /*// --- Handle save operation with same mirroring ---
     const disposablesave = vscode.workspace.onDidSaveTextDocument(async (doc) => {
         const filePath = doc.fileName;
         const dirPath = path.dirname(filePath);
@@ -64,9 +64,9 @@ export function activate(context: vscode.ExtensionContext) {
             await runCommand("chgrp", [dirGroup, filePath]);
         }
     });
-
+    //*/
     context.subscriptions.push(disposablecreate);
-    context.subscriptions.push(disposablesave);
+    //context.subscriptions.push(disposablesave);
 }
 
 export function deactivate() { }

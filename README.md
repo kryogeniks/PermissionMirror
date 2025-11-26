@@ -2,10 +2,10 @@
 
 ### kryogeniks <img src="images/verified.png" alt="Verified badge" width="12"/>
 
-**Permission Mirror** is a VS Code extension that ensures new files and directories inherit the permissions of their parent directory. It mirrors user, group, and other read/write/execute bits. If the parent directory has the setgid bit set, Permission Mirror also enforces group ownership and preserves g+s on new directories.
+**Permission Mirror** is a VS Code extension that applies inheritance when new files or directories are created, ensuring they match the parent’s ownership and permission model. Existing files are not altered on save, so any intentional changes to permissions or group ownership remain intact.
 
 ## Features
-- Mirrors parent directory permissions on file create and save.
+- Mirrors parent directory permissions on file create.
 - Applies execute bits to files only if they are configured as auto‑executable (e.g. `.sh`).
 - Always mirrors execute bits for directories to allow traversal.
 - Enforces group ownership when parent has setgid.
@@ -13,10 +13,27 @@
 
 ## Example
 Here’s how permissions are mirrored in practice:
-- `Parent: drwxr-s--- www-data`
-- `New file: -rw-r----- www-data`
-- `New .sh file: -rwxr-x--- www-data`
-- `New directory: drwxr-s--- www-data`
+
+*Example:* parent is root:www-data
+
+| Context        | Permissions | Owner:Group   |
+|----------------|-------------|---------------|
+| Parent         | drwxr-s---  | root:www-data |
+| New file       | -rw-r-----  | `user`:www-data |
+| New `.sh` file | -rwxr-x---  | `user`:www-data |
+| New directory  | drwxr-s---  | `user`:www-data |
+
+*Example:* parent is alice:dev
+
+| Context        | Permissions | Owner:Group |
+|----------------|-------------|-------------|
+| Parent         | drwxrwxr-x  | alice:dev   |
+| New file       | -rw-rw-r--  | `user`:`group`  |
+| New `.py` file | -rwxrwxr-x  | `user`:`group`  |
+| New directory  | drwxrwxr-x  | `user`:`group`  |
+
+- `user` represents the current user
+- `group` represents the current active group of the user
 
 ## Why
 By default, Linux only applies group ownership if the user’s active group matches. Permission Mirror bridges that gap by interpreting directory intent (`g+s`) and enforcing it automatically, so you don’t have to run `chgrp` manually.
@@ -44,10 +61,10 @@ By default, Linux only applies group ownership if the user’s active group matc
 4. Open the folder in VS Code and press F5 to launch an Extension Development Host, or run `vsce package` to build a `.vsix` and install it.
 
 ## Usage
-- On file create or save, permissions are mirrored automatically.
-- Save a file inside a directory with the setgid bit set (`chmod g+s dir`).
+- On file create, permissions are mirrored automatically.
+- Create a file inside a directory with the setgid bit set (`chmod g+s dir`).
 - If you’re a member of that directory’s group, the extension will automatically `chgrp` the file.
-- If not, the file is saved normally without errors.
+- If not, the file is created normally without errors.
 
 ## Notes
 - No effect on Windows — the extension silently skips.
