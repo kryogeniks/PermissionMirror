@@ -41,32 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
             }
         }
     });
-
-    /*// --- Handle save operation with same mirroring ---
-    const disposablesave = vscode.workspace.onDidSaveTextDocument(async (doc) => {
-        const filePath = doc.fileName;
-        const dirPath = path.dirname(filePath);
-
-        const parentStat = await runCommand("stat", ["-c", "%A %G", dirPath]);
-        const [parentMode, dirGroup] = parentStat.split(" ");
-
-        const uPerms = parentMode.slice(1, 4);
-        const gPerms = parentMode.slice(4, 7);
-        const oPerms = parentMode.slice(7, 10);
-
-        const isDir = await isDirectory(filePath);
-        const autoExec = shouldAutoExec(filePath);
-
-        const spec = buildMirrorSpec(uPerms, gPerms, oPerms, isDir, autoExec);
-        await runCommand("chmod", [spec, filePath]);
-
-        if (gPerms.includes("s")) {
-            await runCommand("chgrp", [dirGroup, filePath]);
-        }
-    });
-    //*/
     context.subscriptions.push(disposablecreate);
-    //context.subscriptions.push(disposablesave);
 }
 
 export function deactivate() { }

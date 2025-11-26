@@ -1,0 +1,7 @@
+# Ignore
+**
+
+# Keep
+!*.md
+!images/
+!out/**/*.js
