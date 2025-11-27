@@ -16,24 +16,27 @@ Here’s how permissions are mirrored in practice:
 
 *Example:* parent is root:www-data
 
-| Context        | Permissions | Owner:Group   |
-|----------------|-------------|---------------|
-| Parent         | drwxr-s---  | root:www-data |
-| New file       | -rw-r-----  | `user`:www-data |
-| New `.sh` file | -rwxr-x---  | `user`:www-data |
-| New directory  | drwxr-s---  | `user`:www-data |
+| Context | Permissions | Owner:Group |
+| :-- | :-- | :-- |
+| Parent | `drwxr-s---` | root:www-data |
+| New file | `-rw-r-----` | `user`<sup>1</sup>:`sgroup`<sup>2</sup> |
+| New `.sh` file | `-rwxr-x---` | `user`<sup>1</sup>:`sgroup`<sup>2</sup> |
+| New directory | `drwxr-s---` | `user`<sup>1</sup>:`sgroup`<sup>2</sup> |
 
 *Example:* parent is alice:dev
 
-| Context        | Permissions | Owner:Group |
-|----------------|-------------|-------------|
-| Parent         | drwxrwxr-x  | alice:dev   |
-| New file       | -rw-rw-r--  | `user`:`group`  |
-| New `.py` file | -rwxrwxr-x  | `user`:`group`  |
-| New directory  | drwxrwxr-x  | `user`:`group`  |
+| Context | Permissions | Owner:Group |
+| :-- | :-- | :-- |
+| Parent | `drwxrwxr-x`  | alice:dev |
+| New file | `-rw-rw-r--` | `user`<sup>1</sup>:`group`<sup>3</sup>  |
+| New `.py` file | `-rwxrwxr-x` | `user`<sup>1</sup>:`group`<sup>3</sup>  |
+| New directory | `drwxrwxr-x` | `user`<sup>1</sup>:`group`<sup>3</sup>  |
 
-- `user` represents the current user
-- `group` represents the current active group of the user
+| Subscript | Symbol  | Definition |
+| :--: | :-- | :--|
+| 1 | `user` | current user |
+| 2 | `sgroup` | directory's set-group, if applicable; otherwise active group |
+| 3 | `group` | current active group |
 
 ## Why
 By default, Linux only applies group ownership if the user’s active group matches. Permission Mirror bridges that gap by interpreting directory intent (`g+s`) and enforcing it automatically, so you don’t have to run `chgrp` manually.
