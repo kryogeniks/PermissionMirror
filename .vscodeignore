@@ -3,5 +3,4 @@
 
 # Keep
 !*.md
-!images/
 !out/**/*.js
