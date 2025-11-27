@@ -2,7 +2,7 @@
     "name": "permissionmirror",
     "displayName": "Permission Mirror",
     "description": "Enforces directory group ownership and permissions on file save and creation.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "kryogeniks",
     "engines": {
         "vscode": "^1.80.0"

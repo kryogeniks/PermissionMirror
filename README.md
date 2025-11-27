@@ -32,11 +32,9 @@ Here’s how permissions are mirrored in practice:
 | New `.py` file | `-rwxrwxr-x` | `user`<sup>1</sup>:`group`<sup>3</sup>  |
 | New directory | `drwxrwxr-x` | `user`<sup>1</sup>:`group`<sup>3</sup>  |
 
-| Subscript | Symbol  | Definition |
-| :--: | :-- | :--|
-| 1 | `user` | current user |
-| 2 | `sgroup` | directory's set-group, if applicable; otherwise active group |
-| 3 | `group` | current active group |
+<sup>1</sup> current user<br>
+<sup>2</sup> directory's set-group, if applicable; otherwise active group<br>
+<sup>3</sup> current active group
 
 ## Why
 By default, Linux only applies group ownership if the user’s active group matches. Permission Mirror bridges that gap by interpreting directory intent (`g+s`) and enforcing it automatically, so you don’t have to run `chgrp` manually.
